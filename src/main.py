@@ -1,3 +1,4 @@
+import argparse
 import json
 from pathlib import Path
 
@@ -53,7 +54,18 @@ def normalize_alert(alert):
 
 def main():
     project_root = Path(__file__).resolve().parent.parent
-    alert_path = project_root / "data" / "sample_alert.json"
+    default_alert_path = project_root / "data" / "sample_alert.json"
+
+    parser = argparse.ArgumentParser(description="Load and normalize an alert")
+    parser.add_argument(
+        "alert_file",
+        nargs="?",
+        default=default_alert_path,
+        type=Path,
+        help="path to the alert JSON file",
+    )
+    args = parser.parse_args()
+    alert_path = args.alert_file
 
     try:
         with alert_path.open("r", encoding="utf-8") as alert_file:
