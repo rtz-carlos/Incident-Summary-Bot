@@ -2,6 +2,27 @@ import json
 from pathlib import Path
 
 
+def validate_alert(alert):
+    if not isinstance(alert, dict):
+        raise TypeError("Alert must be a dictionary")
+
+    required_fields = ("timestamp", "event", "severity")
+    for field in required_fields:
+        value = alert.get(field)
+        if value is None or (isinstance(value, str) and not value.strip()):
+            raise ValueError(f"Required field '{field}' is missing or empty")
+
+    severity = alert["severity"]
+    if not isinstance(severity, str):
+        raise ValueError("Severity must be text")
+
+    allowed_severities = ("low", "medium", "high", "critical")
+    if severity.strip().lower() not in allowed_severities:
+        raise ValueError(
+            "Severity must be one of: low, medium, high, critical"
+        )
+
+
 def normalize_alert(alert):
     if not isinstance(alert, dict):
         raise TypeError("Alert must be a dictionary")
@@ -44,7 +65,12 @@ def main():
         print(f"Error: invalid JSON in {alert_path}: {error}")
         return
 
-    normalized_alert = normalize_alert(alert)
+    try:
+        validate_alert(alert)
+        normalized_alert = normalize_alert(alert)
+    except (ValueError, TypeError) as error:
+        print(f"Error: {error}")
+        return
 
     print("Alert loaded successfully")
     print("Normalized alert:")
