@@ -2,6 +2,10 @@ import argparse
 import json
 from pathlib import Path
 
+from openai import OpenAIError
+
+from llm_client import generate_incident_summary
+
 
 def validate_alert(alert):
     if not isinstance(alert, dict):
@@ -84,9 +88,17 @@ def main():
         print(f"Error: {error}")
         return
 
-    print("Alert loaded successfully")
-    print("Normalized alert:")
-    print(json.dumps(normalized_alert, indent=2, ensure_ascii=False))
+    print("Alert loaded and normalized successfully")
+    print("Generating incident summary...")
+
+    try:
+        summary = generate_incident_summary(normalized_alert)
+    except (ValueError, OpenAIError) as error:
+        print(f"Error generating summary: {error}")
+        return
+
+    print("Incident summary:")
+    print(summary.model_dump_json(indent=2))
 
 
 if __name__ == "__main__":
