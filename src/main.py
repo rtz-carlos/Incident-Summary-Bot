@@ -97,8 +97,22 @@ def main():
         print(f"Error generating summary: {error}")
         return
 
+    summary_json = summary.model_dump_json(indent=2)
+
     print("Incident summary:")
-    print(summary.model_dump_json(indent=2))
+    print(summary_json)
+
+    output_directory = project_root / "outputs"
+    output_path = output_directory / "incident_summary.json"
+
+    try:
+        output_directory.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(summary_json + "\n", encoding="utf-8")
+    except OSError as error:
+        print(f"Error saving summary: {error}")
+        return
+
+    print(f"Summary saved to: {output_path}")
 
 
 if __name__ == "__main__":
