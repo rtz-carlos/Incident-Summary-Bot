@@ -1,0 +1,33 @@
+{
+  "incident_title": "Multiple Failed Logins Followed by Successful Login",
+  "severity": "high",
+  "executive_summary": "A high-severity authentication alert indicates multiple failed login attempts against destination 10.0.0.25 using username jdoe, followed by a successful login. The activity originated from 203.0.113.42 and is associated with hostname finance-ws-07. The alert may indicate password guessing or credential misuse; compromise is not confirmed by the provided evidence.",
+  "timeline": [
+    "2026-08-17T14:32:10Z: Multiple failed login attempts were followed by a successful login for username jdoe.",
+    "2026-08-17T14:32:10Z: The login action was allowed."
+  ],
+  "affected_assets": [
+    "Username: jdoe",
+    "Hostname: finance-ws-07",
+    "Destination IP: 10.0.0.25"
+  ],
+  "indicators_of_compromise": [
+    "Source IP: 203.0.113.42",
+    "Username: jdoe",
+    "Hostname: finance-ws-07",
+    "Destination IP: 10.0.0.25"
+  ],
+  "attacker_behavior": [
+    "Multiple failed authentication attempts followed by a successful login.",
+    "The pattern is consistent with possible password guessing or use of compromised credentials, but the alert alone does not establish malicious intent or successful compromise."
+  ],
+  "recommended_actions": [
+    "Validate whether the successful login was expected with the user jdoe and from the observed source IP.",
+    "Review authentication, endpoint, and network logs around 2026-08-17T14:32:10Z for additional attempts, source locations, and post-login activity.",
+    "If the login is unauthorized, disable or temporarily lock the jdoe account and reset its credentials.",
+    "Require or verify multi-factor authentication for the affected account and systems.",
+    "Assess whether 203.0.113.42 should be blocked or monitored based on corroborating evidence and organizational policy.",
+    "Check finance-ws-07 and 10.0.0.25 for suspicious activity following the successful login.",
+    "Preserve relevant authentication and endpoint logs for investigation; no file hash was provided in the alert."
+  ]
+}
