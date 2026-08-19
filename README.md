@@ -51,7 +51,7 @@ The default input is [`data/sample_alert.json`](data/sample_alert.json). A repre
 1. Clone the repository and enter its directory:
 
    ```powershell
-   git clone <repository-url>
+   git clone https://github.com/rtz-carlos/Incident-Summary-Bot.git
    cd Incident-Summary-Bot
    ```
 
@@ -64,6 +64,7 @@ The default input is [`data/sample_alert.json`](data/sample_alert.json). A repre
 3. Activate the virtual environment:
 
    ```powershell
+   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
    .\.venv\Scripts\Activate.ps1
    ```
 
